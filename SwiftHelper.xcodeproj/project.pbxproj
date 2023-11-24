@@ -21,6 +21,7 @@
 		40471A212B07E35200DC4426 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		40471A242B07E35200DC4426 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		40471A2B2B07E3B300DC4426 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		4080FCAC2B111634001C6C85 /* SwiftBasics.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = SwiftBasics.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 				40471A212B07E35200DC4426 /* Assets.xcassets */,
 				40471A232B07E35200DC4426 /* Preview Content */,
 				40471A2B2B07E3B300DC4426 /* NetworkManager.swift */,
+				4080FCAC2B111634001C6C85 /* SwiftBasics.playground */,
 			);
 			path = SwiftHelper;
 			sourceTree = "<group>";
