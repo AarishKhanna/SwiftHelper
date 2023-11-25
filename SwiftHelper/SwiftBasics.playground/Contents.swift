@@ -42,9 +42,9 @@ print(example.age)
 //
 //let incrementByTwo = makeIncrementer(incrementAmount: 2)
 //
-//print(incrementByTwo())  // Prints 2
-//print(incrementByTwo())  // Prints 4
-//print(incrementByTwo())  // Prints 6
+//print(incrementByTwo())  // Prints 12
+//print(incrementByTwo())  // Prints 14
+//print(incrementByTwo())  // Prints 16
  
 func makeIncrementer(incrementAmount: Int) -> () -> Int {
     var total = 0
@@ -100,3 +100,75 @@ objectA?.completionHandler = { [weak objectB] in
 objectA = nil
 objectB = nil
  
+// example of traling closures
+
+enum NetworkError: Error {
+    case badURL
+    case requestFailed
+    // Add more cases as needed
+}
+
+func fetchData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+    // Check if the URL is valid
+    guard let url = URL(string: urlString) else {
+        completion(.failure(.badURL))
+        return
+    }
+
+    // Create a URLSession task for making the network request
+    let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        // Check for errors
+        if let error = error {
+            completion(.failure(.requestFailed))
+            print("Error: \(error)")
+            return
+        }
+
+        // Check if there is data
+        guard let data = data else {
+            completion(.failure(.requestFailed))
+            print("No data received")
+            return
+        }
+
+        // Call the completion handler with the successful result
+        completion(.success(data))
+    }
+
+    // Start the network request
+    task.resume()
+}
+
+// Example usage:
+let urlString = "https://jsonplaceholder.typicode.com/todos/1"
+fetchData(from: urlString) { result in
+    switch result {
+    case .success(let data):
+        // Handle successful result with the data
+        print("Data received:", data)
+    case .failure(let error):
+        // Handle the error
+        print("Error: \(error)")
+    }
+}
+
+func performOperation(completion: () -> Int) -> Int {
+    let result = completion()
+    let doubledResult = result * 2
+    print("Result of the operation: \(result), Doubled result: \(doubledResult)")
+
+    // Store the result in another variable
+    let storedResult = result
+    print("Stored result: \(storedResult)")
+
+    // Return the stored result
+    return storedResult
+}
+
+// Using trailing closure syntax and storing the result
+let returnedResult = performOperation {
+    return 42
+}
+
+// Now you can use the returned result elsewhere in your code
+print("Returned result: \(returnedResult)")
