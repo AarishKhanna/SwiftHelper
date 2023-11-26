@@ -172,3 +172,55 @@ let returnedResult = performOperation {
 
 // Now you can use the returned result elsewhere in your code
 print("Returned result: \(returnedResult)")
+
+// some examples of enum
+
+enum Color: String {
+    case red = "FF0000"
+    case green = "00FF00"
+    case blue = "0000FF"
+}
+
+// Example of getting a case from its raw value
+let rawValue = "00FF00"
+
+if let color = Color(rawValue: rawValue) {
+    print("Found color: \(color)")
+} else {
+    print("No matching color found for raw value: \(rawValue)")
+}
+
+enum Measurement {
+    case length(Double)
+    case weight(Double)
+    case temperature(Double)
+}
+
+let measurement = Measurement.length(5.0)
+
+if case let .length(value) = measurement {
+    print("Length: \(value) meters")
+} else if case let .weight(value) = measurement {
+    print("Weight: \(value) kilograms")
+} else if case let .temperature(value) = measurement {
+    print("Temperature: \(value) degrees Celsius")
+}
+
+enum Measurement2 {
+    case length(Double)
+    case weight(Double)
+    case temperature(Double)
+}
+
+let measurement2 = Measurement2.length(5.0)
+
+switch measurement2 {
+case let .length(value):
+    print("Length: \(value) meters")
+    
+case let .weight(value):
+    print("Weight: \(value) kilograms")
+    
+case let .temperature(value):
+    print("Temperature: \(value) degrees Celsius")
+}
