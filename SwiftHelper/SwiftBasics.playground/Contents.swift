@@ -224,3 +224,58 @@ case let .weight(value):
 case let .temperature(value):
     print("Temperature: \(value) degrees Celsius")
 }
+
+
+/* In Swift, the distinction between classes and structs is similar in some aspects, but there are some differences. Here's how Swift handles mutability and assignment for structs and classes:
+
+Structs:
+
+Structs in Swift are value types.
+If a struct is assigned to a constant (let), the entire struct becomes immutable, and you cannot modify any of its properties.
+Reassignment of the entire struct itself is allowed. */
+
+
+struct Point {
+    var x: Int
+    var y: Int
+}
+
+let p = Point(x: 1, y: 2) // Immutable, cannot modify p.x or p.y
+
+/* Classes:
+
+Classes in Swift are reference types.
+If a class instance is assigned to a constant (let), the reference cannot be changed (reassigned), but the internal properties can still be modified. */
+
+class Points {
+    var x: Int
+    var y: Int
+    
+    func changeVal(){
+        self.y = self.y * 2
+        self.x = self.x * 2
+    }
+
+    init(x: Int, y: Int) {
+        self.x = x
+        self.y = y
+    }
+}
+
+let p2 = Points(x: 1, y: 2)
+p2.changeVal()
+print("value x- \(p2.x)")
+print("value y- \(p2.y)")
+
+// p cannot be reassigned, but p.x and p.y can be modified
+
+/*In summary:
+
+For structs in Swift, when assigned to a constant (let), the entire struct becomes immutable.
+For classes in Swift, when assigned to a constant (let), the reference cannot be changed, but the internal state of the class instance can be modified.
+This behavior is consistent with the idea that structs are value types, and their immutability is enforced when assigned to constants, while classes are reference types, and constant references prevent reassignment but not modification of the referenced instance.
+*/
+
+
+
+
