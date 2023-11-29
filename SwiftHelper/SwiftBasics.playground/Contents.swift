@@ -440,3 +440,92 @@ class C: A1, B1 {
 let instanceC = C()
 instanceC.methodA()  // Output: Method A
 instanceC.methodB()  // Output: Method B
+
+
+// 1. Generic Function for Swapping Values:
+
+func swapValues<T>(_ a: inout T, _ b: inout T) {
+    let temp = a
+    a = b
+    b = temp
+}
+
+var x = 5
+var y = 10
+swapValues(&x, &y)
+print("Swapped values: x = \(x), y = \(y)")
+
+// 2. Generic Stack:
+
+struct Stack<Element> {
+    private var elements: [Element] = []
+
+    mutating func push(_ element: Element) {
+        elements.append(element)
+    }
+
+    mutating func pop() -> Element? {
+        return elements.popLast()
+    }
+}
+
+var intStack = Stack<Int>()
+intStack.push(1)
+intStack.push(2)
+print("Popped: \(intStack.pop() ?? 0)")
+
+var stringStack = Stack<String>()
+stringStack.push("Hello")
+stringStack.push("World")
+print("Popped: \(stringStack.pop() ?? "")")
+
+// 3. Generic Protocol:
+
+protocol Printable {
+    associatedtype DataType
+    func printValue(_ value: DataType)
+}
+
+struct Printer<T>: Printable {
+    typealias DataType = T
+
+    func printValue(_ value: T) {
+        print(value)
+    }
+}
+
+let intPrinter = Printer<Int>()
+intPrinter.printValue(42)
+
+let stringPrinter = Printer<String>()
+stringPrinter.printValue("Hello, Generics!")
+
+// 4. Generic Optionals:
+
+func unwrap<T>(_ value: T?) -> T {
+    guard let unwrappedValue = value else {
+        fatalError("Unexpected nil value")
+    }
+    return unwrappedValue
+}
+
+let optionalInt: Int? = 42
+let unwrappedInt = unwrap(optionalInt)
+print("Unwrapped Int: \(unwrappedInt)")
+
+let optionalString: String? = "Hello, Generics!"
+let unwrappedString = unwrap(optionalString)
+print("Unwrapped String: \(unwrappedString)")
+
+// 5. Generic Where Clause:
+
+func combine<T, U>(_ a: T, _ b: U) -> String where T: CustomStringConvertible, U: CustomStringConvertible {
+    return a.description + b.description
+}
+
+let result1 = combine(42, " is the meaning of life")
+print(result1)
+
+let result2 = combine("Hello", 2023)
+print(result2)
+
