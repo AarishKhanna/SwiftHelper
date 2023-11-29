@@ -369,3 +369,74 @@ print("Square Area: \(square.area)")
 /*
  In this example, the Shape protocol includes an area property with only a get requirement. Both Circle and Square conform to this protocol and provide read-only implementations for the area property. The area is calculated based on the shape-specific formulas.
  */
+
+@frozen enum MyFrozenEnum {
+    case case1
+    case case2
+    // ... other cases
+    case case3
+}
+
+class Animal {
+    func makeSound() {
+        print("Some generic animal sound")
+    }
+}
+
+class Mammal: Animal {
+    func giveBirth() {
+        print("Giving birth to live young")
+    }
+}
+
+class Dog: Mammal {
+    func bark() {
+        print("Woof woof!")
+    }
+}
+
+let myDog = Dog()
+myDog.makeSound()   // Inherits from Animal
+myDog.giveBirth()   // Inherits from Mammal
+myDog.bark()        // Specific to Dog
+
+
+class A {
+    func methodA() {
+        print("Method A")
+    }
+}
+
+class B {
+    func methodB() {
+        print("Method B")
+    }
+}
+
+// This will result in a compilation error
+//class C: A, B {
+//    // Error: 'C' cannot inherit from multiple classes ('A' and 'B')
+//}
+
+
+protocol A1 {
+    func methodA()
+}
+
+protocol B1 {
+    func methodB()
+}
+
+class C: A1, B1 {
+    func methodA() {
+        print("Method A")
+    }
+
+    func methodB() {
+        print("Method B")
+    }
+}
+
+let instanceC = C()
+instanceC.methodA()  // Output: Method A
+instanceC.methodB()  // Output: Method B
