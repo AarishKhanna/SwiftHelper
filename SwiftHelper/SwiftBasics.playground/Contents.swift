@@ -279,3 +279,93 @@ This behavior is consistent with the idea that structs are value types, and thei
 //test commit
 //test commit 2
 
+/*
+ In Swift, protocols can include both read-only (get-only) and read-write (get-set) properties. Let's look at examples of protocols with variables for both scenarios:
+
+*/
+
+//Protocols with get set property:
+
+protocol Vehicle {
+    var speed: Double { get set }
+    var isRunning: Bool { get set }
+    
+    func start()
+    func stop()
+}
+
+class Car: Vehicle {
+    var speed: Double = 0.0
+    var isRunning: Bool = false
+    
+    func start() {
+        if !isRunning {
+            isRunning = true
+            print("Car started.")
+        } else {
+            print("Car is already running.")
+        }
+    }
+    
+    func stop() {
+        if isRunning {
+            isRunning = false
+            speed = 0.0
+            print("Car stopped.")
+        } else {
+            print("Car is already stopped.")
+        }
+    }
+}
+
+var myCar = Car()
+myCar.start()
+print("Current speed: \(myCar.speed)")
+myCar.speed = 60.0
+print("Updated speed: \(myCar.speed)")
+myCar.stop()
+
+
+/*
+ In this example, the Vehicle protocol includes both speed and isRunning properties with both get and set. The Car class conforms to this protocol and provides implementations for the properties and methods.
+ */
+
+//Protocols with get only property
+
+protocol Shape {
+    var area: Double { get }
+}
+
+class Circle: Shape {
+    let radius: Double
+    
+    init(radius: Double) {
+        self.radius = radius
+    }
+    
+    var area: Double {
+        return Double.pi * radius * radius
+    }
+}
+
+class Square: Shape {
+    let sideLength: Double
+    
+    init(sideLength: Double) {
+        self.sideLength = sideLength
+    }
+    
+    var area: Double {
+        return sideLength * sideLength
+    }
+}
+
+let circle = Circle(radius: 5.0)
+print("Circle Area: \(circle.area)")
+
+let square = Square(sideLength: 4.0)
+print("Square Area: \(square.area)")
+
+/*
+ In this example, the Shape protocol includes an area property with only a get requirement. Both Circle and Square conform to this protocol and provide read-only implementations for the area property. The area is calculated based on the shape-specific formulas.
+ */
