@@ -529,3 +529,35 @@ print(result1)
 let result2 = combine("Hello", 2023)
 print(result2)
 
+
+class Solution {
+    func lengthOfLIS(_ nums: [Int]) -> Int {
+        var lis = [Int]()
+        
+        var lis2 = Array(repeating: 1, count: nums.count)
+
+        for i in 0..<nums.count{
+            lis.append(1)
+        }
+
+        for j in 0..<nums.count{
+            for k in 0..<j{
+                if(nums[j] > nums[k] && lis[j] < lis[k] + 1){
+                    lis[j] += 1
+                }
+            }
+        }
+
+        var result = 0
+
+        for i in lis{
+            result = max(result, i)
+        }
+
+        return result
+    }
+}
+
+let s1 = Solution()
+let ans = s1.lengthOfLIS([1, 5, 4, 2, 7, 12, 8, 2, 9])
+print("length of LIS is \(ans)")
