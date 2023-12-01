@@ -561,3 +561,73 @@ class Solution {
 let s1 = Solution()
 let ans = s1.lengthOfLIS([1, 5, 4, 2, 7, 12, 8, 2, 9])
 print("length of LIS is \(ans)")
+
+
+  public class ListNode {
+      public var val: Int
+      public var next: ListNode?
+      public init() { self.val = 0; self.next = nil; }
+      public init(_ val: Int) { self.val = val; self.next = nil; }
+      public init(_ val: Int, _ next: ListNode?) { self.val = val; self.next = next; }
+  }
+ 
+class Solution2 {
+    func middleNode(_ head: ListNode?) -> ListNode? {
+        
+        var size = 0
+
+        if head == nil{
+            return head
+        }
+
+        if head?.next == nil{
+            return head
+        }
+
+        var head2 = head
+
+        while(head2?.next != nil){
+            head2 = head2?.next
+            size += 1
+        }
+        
+        print("now size is \(size)")
+
+       var count = size/2
+       var temp = head
+
+       while(count>0){
+
+           temp = temp?.next
+
+           count -= 1
+
+       }
+        print("now temp val is \(String(describing: temp?.val) )")
+
+       if size%2 != 0{
+           temp = temp?.next
+       }
+
+       return temp
+
+
+
+
+
+    }
+}
+
+let temp1 = Solution2()
+
+//[1,2,3,4,5,6]
+
+let head = ListNode(1)
+head.next = ListNode(2)
+head.next?.next = ListNode(3)
+head.next?.next?.next = ListNode(4)
+head.next?.next?.next?.next = ListNode(5)
+head.next?.next?.next?.next?.next = ListNode(6)
+
+temp1.middleNode(head)
+//demo
