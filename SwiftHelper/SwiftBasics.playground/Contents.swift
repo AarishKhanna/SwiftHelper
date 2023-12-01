@@ -631,3 +631,60 @@ head.next?.next?.next?.next?.next = ListNode(6)
 
 temp1.middleNode(head)
 //demo
+
+//Unwrapping optionals:
+
+let optionalValue: Int? = 42
+let unwrappedValue = optionalValue!
+print("Forced Unwrapped Value: \(unwrappedValue)")
+
+
+if let unwrappedValue3 = optionalValue {
+    print("Optional Binding Value: \(unwrappedValue3)")
+} else {
+    print("Optional is nil")
+}
+
+func processOptionalValue(_ optionalValue: Int?) {
+    guard let unwrappedValue = optionalValue else {
+        print("Optional is nil")
+        return
+    }
+    
+    print("Guard Statement Value: \(unwrappedValue)")
+}
+
+processOptionalValue(42)
+
+
+let unwrappedValue2 = optionalValue ?? 0
+print("Nil Coalescing Value: \(unwrappedValue2)")
+
+
+switch optionalValue {
+case let .some(unwrappedValue):
+    print("Switch Case Value: \(unwrappedValue)")
+case .none:
+    print("Switch Case: Optional is nil")
+}
+
+// Optional Chaining in swift
+
+struct Person {
+    var residence: Residence?
+}
+
+struct Residence {
+    var address: Address?
+}
+
+struct Address {
+    var street: String
+}
+
+let person = Person()
+
+// Accessing a nested property with optional chaining
+let street = person.residence?.address?.street
+print(street) // Output: nil (person.residence is nil)
+
