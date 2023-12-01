@@ -688,3 +688,60 @@ let person = Person()
 let street = person.residence?.address?.street
 print(street) // Output: nil (person.residence is nil)
 
+// Define a custom error enum
+enum FileError: Error {
+    case fileNotFound
+    case permissionDenied
+    case fileCorrupted(reason: String)
+}
+
+// Function that throws custom errors
+func readFileContent(fileName: String) throws -> String {
+    // Assume some logic that may throw errors
+    guard let fileContent = try? String(contentsOfFile: fileName) else {
+        throw FileError.fileNotFound
+    }
+    
+    // Additional logic that may throw other errors
+    guard hasPermission() else {
+        throw FileError.permissionDenied
+    }
+    
+    // Yet more logic that may throw a different error
+    guard isFileContentValid(fileContent) else {
+        throw FileError.fileCorrupted(reason: "Invalid content")
+    }
+    
+    return fileContent
+}
+
+// Helper function to simulate permission check
+func hasPermission() -> Bool {
+    return false // Change to true to simulate having permission
+}
+
+// Helper function to simulate content validation
+func isFileContentValid(_ content: String) -> Bool {
+    // Assume some validation logic
+    return content.count > 10
+}
+
+// Example usage with do-catch and switch case
+do {
+    let fileName = "example.txt"
+    let fileContent = try readFileContent(fileName: fileName)
+    print("File content: \(fileContent)")
+} catch let error as FileError {
+    // Handle specific errors using switch case
+    switch error {
+    case .fileNotFound:
+        print("File not found error")
+    case .permissionDenied:
+        print("Permission denied error")
+    case .fileCorrupted(let reason):
+        print("File corrupted error: \(reason)")
+    }
+} catch {
+    // Handle other generic errors
+    print("An unexpected error occurred: \(error)")
+}
