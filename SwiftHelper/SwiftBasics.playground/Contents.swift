@@ -788,6 +788,7 @@ numbers.forEach { (val: Int) in
 
 let setNumbers: Set<Int> = [1, 2, 3, 4, 5]
 let squaredSetNumbers = setNumbers.map { $0 * $0 }
+squaredSetNumbers
 // squaredSetNumbers is a Set containing the squares of the elements
 
 let dictionaryNumbers = ["one": 1, "two": 2, "three": 3]
@@ -798,4 +799,78 @@ let stuff: [Any] = ["imp", "arr", 0, 1, 2]
 
 let filteredArr = stuff.compactMap { (val: Any) -> String? in
     return val as? String
+}
+
+struct Man: Equatable, Hashable {
+    var name: String
+    var age: Int
+
+    // Implementing Equatable
+    static func == (lhs: Man, rhs: Man) -> Bool {
+        return lhs.name == rhs.name && lhs.age == rhs.age
+    }
+    
+    // Implementing Hashable
+    func hash(into hasher: inout Hasher) {
+        // Combine hash values of properties using XOR (^)
+        hasher.combine(name.hashValue)
+        hasher.combine(age.hashValue)
+    }
+}
+
+// Example usage
+let person1 = Man(name: "John", age: 30)
+let person2 = Man(name: "Jane", age: 25)
+let person3 = Man(name: "John", age: 30)
+
+print(person1 == person2)  // false
+print(person1 == person3)  // true
+
+// Using in a Set (requires Hashable)
+let uniquePeople: Set<Man> = [person1, person2, person3]
+print(uniquePeople.count)  // 2, as person1 and person3 are considered equal in the Set
+
+// Using as a key in a Dictionary (requires Hashable)
+let personDictionary = [person1: "Engineer", person2: "Doctor"]
+print(personDictionary[person3])  // Prints: Optional("Engineer"), as person3 is equal to person1
+
+// enums by default are hashable and equatable
+
+
+struct P: Codable {
+    var personName: String
+    var personAge: Int
+    var personAddress: String
+
+    // Custom encoding logic
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(personName, forKey: .personName)
+        try container.encode(personAge, forKey: .personAge)
+
+        // You can perform additional encoding logic if needed
+        // ...
+
+        // For example, encoding address as uppercase
+        try container.encode(personAddress.uppercased(), forKey: .personAddress)
+    }
+
+    // Custom decoding logic
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        personName = try container.decode(String.self, forKey: .personName)
+        personAge = try container.decode(Int.self, forKey: .personAge)
+
+        // You can perform additional decoding logic if needed
+        // ...
+
+        // For example, decoding address as lowercase
+        personAddress = try container.decode(String.self, forKey: .personAddress).lowercased()
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case personName = "name"
+        case personAge = "age"
+        case personAddress = "address"
+    }
 }
