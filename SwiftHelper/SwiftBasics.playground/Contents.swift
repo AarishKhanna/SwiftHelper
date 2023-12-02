@@ -46,24 +46,29 @@ print(example.age)
 //print(incrementByTwo())  // Prints 14
 //print(incrementByTwo())  // Prints 16
  
-func makeIncrementer(incrementAmount: Int) -> () -> Int {
+func makeIncrementer(incrementAmount: Int) -> (Int) -> Int {
     var total = 0
  
-    let incrementer: () -> Int = { [total] in
+    let incrementer: (Int) -> Int = { [total] resultIn in
         // Here, 'total' is captured in the closure
         // with a capture list to create a copy.
         var capturedTotal = total
         capturedTotal += incrementAmount
+        print("result is \(resultIn)")
         return capturedTotal
     }
  
     return incrementer
 }
+
+var clousreExm: (Int) -> () = { _ in
+    print("arg")
+}
  
 let incrementByTwo = makeIncrementer(incrementAmount: 2)
  
-print(incrementByTwo())  // Prints 2
-print(incrementByTwo())  // Prints 2 (captured value is not modified)
+print(incrementByTwo(446))  // Prints 2
+print(incrementByTwo(61))  // Prints 2 (captured value is not modified)
  
 class ObjectA {
     var completionHandler: (() -> Void)?
@@ -738,10 +743,59 @@ do {
         print("File not found error")
     case .permissionDenied:
         print("Permission denied error")
-    case .fileCorrupted(let reason):
+    case let .fileCorrupted(reason):
         print("File corrupted error: \(reason)")
     }
 } catch {
     // Handle other generic errors
     print("An unexpected error occurred: \(error)")
+}
+
+let numbers = [1, 2, 3, 4, 5]
+let squaredNumbers = numbers.map { $0 * $0 }
+print(squaredNumbers) // Output: [1, 4, 9, 16, 25]
+
+//let numbers = [1, 2, 3, 4, 5]
+let evenNumbers = numbers.filter { $0 % 2 == 0 }
+print(evenNumbers) // Output: [2, 4]
+
+//let numbers = [1, 2, 3, 4, 5]
+let sum = numbers.reduce(0) { $0 + $1 }
+print(sum) // Output: 15
+
+let words = ["apple", "banana", "orange", "grape"]
+let sortedWords = words.sorted { $0.count < $1.count }
+print(sortedWords) // Output: ["grape", "apple", "banana", "orange"]
+
+// Using map with explicit types
+//let numbers = [1, 2, 3, 4, 5]
+let squaredNumbers2 = numbers.map { (val: Int) -> Int in
+    return val * val
+}
+print(squaredNumbers2) // Output: [1, 4, 9, 16, 25]
+
+// Using filter with explicit types
+let evenNumbers2 = numbers.filter { (val: Int) -> Bool in
+    return val % 2 == 0
+}
+print(evenNumbers2) // Output: [2, 4]
+
+numbers.forEach { (val: Int) in
+    print(val * 2)
+}
+
+//temp
+
+let setNumbers: Set<Int> = [1, 2, 3, 4, 5]
+let squaredSetNumbers = setNumbers.map { $0 * $0 }
+// squaredSetNumbers is a Set containing the squares of the elements
+
+let dictionaryNumbers = ["one": 1, "two": 2, "three": 3]
+let doubledValues = dictionaryNumbers.mapValues { $0 * 2 }
+// doubledValues is a dictionary with values doubled
+
+let stuff: [Any] = ["imp", "arr", 0, 1, 2]
+
+let filteredArr = stuff.compactMap { (val: Any) -> String? in
+    return val as? String
 }
