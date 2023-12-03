@@ -874,3 +874,39 @@ struct P: Codable {
         case personAddress = "address"
     }
 }
+
+prefix operator +++
+
+prefix func +++(value: Int) -> Int {
+    return value + 1
+}
+
+var myNumber = 5
+let result = +++myNumber
+print(result) // Output: 6
+
+postfix operator ---
+
+postfix func ---(value: Int) -> Int {
+    return value - 1
+}
+
+var anotherNumber = 8
+let decrementedResult = anotherNumber---
+print(decrementedResult) // Output: 7
+
+struct Op {
+    var x: Double
+    var y: Double
+}
+
+infix operator +-: AdditionPrecedence
+
+func +-(left: Op, right: Op) -> Op {
+    return Op(x: left.x + right.x, y: left.y - right.y)
+}
+
+let point1 = Op(x: 2.0, y: 3.0)
+let point2 = Op(x: 1.0, y: 2.0)
+let resultPoint = point1 +- point2
+print(resultPoint) // Output: Point(x: 3.0, y: 1.0)
