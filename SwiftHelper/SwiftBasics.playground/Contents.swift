@@ -910,3 +910,33 @@ let point1 = Op(x: 2.0, y: 3.0)
 let point2 = Op(x: 1.0, y: 2.0)
 let resultPoint = point1 +- point2
 print(resultPoint) // Output: Point(x: 3.0, y: 1.0)
+
+func loadImage(index: Int) async -> UIImage {
+    let imageURL = URL(string: "https://picsum.photos/200/300")!
+    let request = URLRequest(url: imageURL)
+    let (data, _) = try! await URLSession.shared.data(for: request, delegate: nil)
+    print("Finished loading image \(index)")
+    return UIImage(data: data)!
+}
+
+func loadImages() {
+    Task {
+        let firstImage = await loadImage(index: 1)
+        let secondImage = await loadImage(index: 2)
+        let thirdImage = await loadImage(index: 3)
+        let images = [firstImage, secondImage, thirdImage]
+    }
+}
+
+loadImages()
+
+func loadImages2() {
+    Task {
+        async let firstImage = loadImage(index: 1)
+        async let secondImage = loadImage(index: 2)
+        async let thirdImage = loadImage(index: 3)
+        let images = await [firstImage, secondImage, thirdImage]
+    }
+}
+
+loadImages2()
